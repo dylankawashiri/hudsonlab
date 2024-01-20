@@ -1,2 +1,2 @@
-# hudsonlab
-Code written for use with Hudson Lab
+# Hudson Lab Code
+Code written for use with the Hudson Lab
