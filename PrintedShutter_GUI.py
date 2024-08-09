@@ -99,7 +99,7 @@ class Shutter_GUI(QtWidgets.QWidget):
         """
         Sets the ability to add/remove ports
         """
-        #When changing the number of shutteres afte rthe first start up, this will delete all elements relating to ports
+        #When changing the number of shutters after the first start up, this will delete all elements relating to ports
         if self.start_val==1:
             for i in range(len(self.ports)):
                 self.ports[i].deleteLater()
