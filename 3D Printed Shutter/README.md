@@ -1,5 +1,5 @@
 # 3D Printed Shutter
-This README file goes over how to implement 3D printed shutters using a Labjack T7-Pro
+This README file goes over how to implement 3D-printed shutters using a Labjack T7-Pro
 
 ## Physical Shutter and Circuit
 ### Parts
@@ -12,11 +12,48 @@ This README file goes over how to implement 3D printed shutters using a Labjack 
 ### Circuit
 
 ### STL Files
+The STL files for 3D printing can be found in the ['STL Files' folder](https://github.com/dylankawashiri/hudsonlab/tree/main/3D%20Printed%20Shutter/STL%20Files).
 
 
+## Python functions - Labjack
+The native Kipling software can be used to give the Labjack commands. However, you can also use Python to execute commands. 
 
-## Labjack Integration
+### Initiate connection
+You first need to connect to the Labjack using the 'labjack.openS' command as seen below:
 
-## Python functions
+```
+import labjack as ljm
+
+handle = ljm.openS("ANY", "ANY", "ANY")
+```
+The first parameter of the openS function tells the program what Labjack device to search for. Leaving this, and the rest of the parameters, as "ANY" will result in your computer connecting to the first Labjack device found. If an error arises during this process, it is highly possible that another computer is accessing the Labjack. 
+
+### Send a signal
+
+To send a signal, the 'labjack.eWriteName' function. The parameters for this function are the handle, the port, and the value to set the output of the port, as seen below:
+
+```
+ljm.eWriteName(handle, DIO0, 1)
+```
+
+For the FIO/DIO ports (Digital Input/Output), you will set the value to either 1 or 0 (on or off). For the DAC ports (Digital to Analog Converter), you can set a voltage level (ie. 5.0 for 5 volts):
+
+```
+ljm.eWriteName(handle, DAC0, 5.0)
+```
+
+### Close connection
+
+After you finish using the Labjack, it is important to close the connection. This can be done by simply executing the command:
+
+```
+ljm.close(handle)
+```
+Before doing this, you should set all outputs to 0. 
+
 
 ## GUI
+You can see an example GUI in the [Python folder](https://github.com/dylankawashiri/hudsonlab/tree/main/3D%20Printed%20Shutter/Python).
+<img width="799" alt="Screenshot 2024-08-09 at 10 54 53 PM" src="https://github.com/user-attachments/assets/fee356b1-9b60-4a15-a8da-b6067b0a1cb4">
+
+
