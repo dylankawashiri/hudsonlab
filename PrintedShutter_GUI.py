@@ -1,4 +1,6 @@
-#Shutter_GUI v 2.0.0
+#Shutter_GUI v 2.1.2
+
+#Added power port functionality, labels now delete properly
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import *
@@ -31,18 +33,18 @@ class Shutter_GUI(QtWidgets.QWidget):
         Initializes connection to the Labjack
         """
         out = io.StringIO()
-            with contextlib.redirect_stdout(out):
-                with contextlib.redirect_stderr(out):
-                    try:
-                        handle = ljm.openS("T7", "ANY", "ANY")  # Switch T7 to whatever device that needs to be detected
-                        info = ljm.getHandleInfo(handle)
-                        print("Opened a LabJack with Device type: %i, Connection type: %i,\n"
-                                  "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i" %
-                                  (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5]))
-                            deviceType = info[0]
-                        except Exception as e:
-                            print(f"Error: {e}")
-            self.output_window.setPlainText(out.getvalue())
+        with contextlib.redirect_stdout(out):
+            with contextlib.redirect_stderr(out):
+                try:
+                    handle = ljm.openS("T7", "ANY", "ANY")  # Switch T7 to whatever device that needs to be detected
+                    info = ljm.getHandleInfo(handle)
+                    print("Opened a LabJack with Device type: %i, Connection type: %i,\n"
+                              "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i" %
+                              (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5]))
+                    deviceType = info[0]
+                except Exception as e:
+                    print(f"Error: {e}")
+        self.output_window.setPlainText(out.getvalue())
         
     def start(self):
         """
@@ -55,8 +57,30 @@ class Shutter_GUI(QtWidgets.QWidget):
         #text box - number of shutters
         self.textbox = QLineEdit(self)
         self.textbox.move(20, 20)
-        self.textbox.resize(100, 40)
+        self.textbox.resize(90, 40)
         self.textbox.setPlaceholderText("# of Shutters")
+        
+        #text box - motor power
+        self.motor_port = QLineEdit(self)
+        self.motor_port.move(120,20)
+        self.motor_port.resize(100, 40)
+        self.motor_port.setPlaceholderText("Port for Motor")
+        
+        #text box - logic power
+        self.logic_port = QLineEdit(self)
+        self.logic_port.move(120,60)
+        self.logic_port.resize(100, 40)
+        self.logic_port.setPlaceholderText("Port for Inverter")
+        
+        #on/off for power outputs
+        self.power_button_on = QPushButton('On', self)
+        self.power_button_on.move(220, 30)
+        self.power_button_on.clicked.connect(self.power_on)
+        
+        self.power_button_off = QPushButton('Off', self)
+        self.power_button_off.move(220, 55)
+        self.power_button_off.clicked.connect(self.power_off)
+
 
         #submit - number of shutters
         self.button = QPushButton('Enter', self)
@@ -68,7 +92,7 @@ class Shutter_GUI(QtWidgets.QWidget):
         self.output_window.setReadOnly(True) 
         self.output_window.setFixedSize(250, 300)
         self.output_window.setPlaceholderText("Output window (will display info)")
-        self.output_window.move(20,90)
+        self.output_window.move(20,100)
         
         #Exit button
         self.exit_button = QPushButton('Exit', self)
@@ -99,10 +123,11 @@ class Shutter_GUI(QtWidgets.QWidget):
         """
         Sets the ability to add/remove ports
         """
-        #When changing the number of shutters after the first start up, this will delete all elements relating to ports
+        #When changing the number of shutteres afte rthe first start up, this will delete all elements relating to ports
         if self.start_val==1:
             for i in range(len(self.ports)):
                 self.ports[i].deleteLater()
+                self.labels[i].deleteLater()
                 for j in range(2):
                     self.buttons[i][j].deleteLater()
             self.ports=[]
@@ -155,7 +180,7 @@ class Shutter_GUI(QtWidgets.QWidget):
                 #Text box initialization
                 self.ports[i].move(310, num_even)
                 self.ports[i].resize(150, 40)
-                self.ports[i].setPlaceholderText("port " + str(i+1))
+                self.ports[i].setPlaceholderText("Port " + str(i+1))
                 
                 #Label initialization
                 self.labels[i] = QLabel("Port " + str(i+1), self)
@@ -222,6 +247,35 @@ class Shutter_GUI(QtWidgets.QWidget):
                     except Exception as e:
                         print(f"Error: {e}")
             self.output_window.setPlainText(out.getvalue())
+        
+    def power_on(self):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            with contextlib.redirect_stderr(out):
+                try:
+                    motor=str(self.motor_port.text())
+                    logic=str(self.logic_port.text())
+                    ljm.eWriteName(handle, motor, 3.0)
+                    ljm.eWriteName(handle, logic, 3.0)
+                    print("Ports to power motor driver and inverter have been set to 3.0")
+                except Exception as e:
+                    print(f"Error: {e}")
+        self.output_window.setPlainText(out.getvalue())
+        
+    
+    def power_off(self):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            with contextlib.redirect_stderr(out):
+                try:
+                    motor=str(self.motor_port.text())
+                    logic=str(self.logic_port.text())
+                    ljm.eWriteName(handle, motor, 0.0)
+                    ljm.eWriteName(handle, logic, 0.0)
+                    print("Ports to power motor driver and inverter have been turned off")
+                except Exception as e:
+                    print(f"Error: {e}")
+        self.output_window.setPlainText(out.getvalue())
         
         
     def exit(self):
