@@ -56,4 +56,5 @@ Before doing this, you should set all outputs to 0.
 You can see an example GUI in the [Python folder](https://github.com/dylankawashiri/hudsonlab/tree/main/3D%20Printed%20Shutter/Python).
 <img width="799" alt="Screenshot 2024-08-09 at 10 54 53 PM" src="https://github.com/user-attachments/assets/fee356b1-9b60-4a15-a8da-b6067b0a1cb4">
 
-
+## Notes
+- Keep the supplied voltage for every component at 2.5 volts. If using a DAC input for the TTL signal, you can set the TTL output to 1.5 volts and it will still flip. The inverter and motor driver both need 2.5 volts to run properly. 
