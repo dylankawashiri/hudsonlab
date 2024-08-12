@@ -57,4 +57,5 @@ You can see an example GUI in the [Python folder](https://github.com/dylankawash
 <img width="799" alt="Screenshot 2024-08-09 at 10 54 53 PM" src="https://github.com/user-attachments/assets/fee356b1-9b60-4a15-a8da-b6067b0a1cb4">
 
 ## Notes
-- Keep the supplied voltage for every component at 2.5 volts. If using a DAC input for the TTL signal, you can set the TTL output to 1.5 volts and it will still flip. The inverter and motor driver both need 2.5 volts to run properly. 
+- Keep the supplied voltage for every component at 2.5 volts. If using a DAC input for the TTL signal, you can set the TTL output to 1.5 volts and it will still flip. The inverter and motor driver both need 2.5 volts to run properly.
+- If you are using a higher voltage, make sure to turn off the supply voltage for the motor driver (and inverter) after it has moved. Forcibly stopping the motor will heat it up to over 60 degrees Celcius (which will melt the 3D printed materials and hot glue).
