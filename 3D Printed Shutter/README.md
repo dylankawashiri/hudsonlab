@@ -59,3 +59,4 @@ You can see an example GUI in the [Python folder](https://github.com/dylankawash
 ## Notes
 - Keep the supplied voltage for every component at 2.5 volts. If using a DAC input for the TTL signal, you can set the TTL output to 1.5 volts and it will still flip. The inverter and motor driver both need 2.5 volts to run properly.
 - If you are using a higher voltage, make sure to turn off the supply voltage for the motor driver (and inverter) after it has moved. Forcibly stopping the motor will heat it up to over 60 degrees Celcius (which will melt the 3D printed materials and hot glue).
+- Keeping the supply current to the motor driver above .05-.08 amps will allow for switching
