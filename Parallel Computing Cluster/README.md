@@ -60,10 +60,19 @@ for i in range(total_ranks):
     split_arr.append(split)
 for i in range(num_of_divs % total_ranks): #2
     split_arr[i]+=1
-
 ```
 1) Divsion (floor) of the total number of divisions in the function by the total number of computers being used
 2) Takes the modulus of the number of divisions by the total number of computers and adds the remainder to one of the computers
+
+Second step:
+
+```
+for i in range(total_ranks):
+    if i == 0:
+        detunings_arr.append(detunings[i:split_arr[i]])
+    else:
+        detunings_arr.append(detunings[sum(split_arr[:i]):sum(split_arr[:i])+split_arr[i]])
+```
 
 ### File Sharing
 In order for Slurm to work, you must distribute the Python file you wish to parallelize to all nodes in the cluster. This can be done by uploading the files to the mounted folder at location "/mnt/share" (this folder is available on all nodes). This will automatically distribute the file. 
