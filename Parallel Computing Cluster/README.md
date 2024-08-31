@@ -74,6 +74,9 @@ for i in range(total_ranks):
         detunings_arr.append(detunings[sum(split_arr[:i]):sum(split_arr[:i])+split_arr[i]])
 ```
 
+As mentioned before, there is no way to store the results in a common variable. We therefore must use a temporary shared file system between the nodes. This has already been set up. If you are looking to set up your own file system, see here. 
+
+
 ### File Sharing
 In order for Slurm to work, you must distribute the Python file you wish to parallelize to all nodes in the cluster. This can be done by uploading the files to the mounted folder at location "/mnt/share" (this folder is available on all nodes). This will automatically distribute the file. 
 
