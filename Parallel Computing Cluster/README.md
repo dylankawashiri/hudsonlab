@@ -5,7 +5,10 @@ This is a guide on how to optimize your code for use in the Farm cluster. Please
 Slurm is a workload manager that will allocate tasks and resources in a computing cluster. It **will not** parallelize your code for you and will only 'accelerate' any code that is built for parallelization in the first place. All Slurm commands are executed via text files and/or the command line. 
 
 ## Python via Slurm
-This part of the guide is for the integration of Qutip and Slurm. 
+This part of the guide is for the integration of Qutip and Slurm. Please note that I have created a Python package that does everything seen below. Link can be found here: 
+https://test.pypi.org/project/qt-slurm/0.1.10/
+
+Also available in this repo under [qt_slurm](https://github.com/dylankawashiri/hudsonlab/tree/main/Parallel%20Computing%20Cluster/qt_slurm).
 
 ### Parallel Map
 You will need to use Qutip's [parallel map](https://qutip.org/docs/4.0.2/guide/guide-parfor.html) function for integration with Slurm. Parallel map's parameters are a function and the array/vars that you will call that function with. Parallel map will assign one calculation of the array to one available CPU core. With n cores, you can process up to n calculations simultaneously. If you have more than n possible calculations, the extra cores will speed up any remaining calculations. 
@@ -61,7 +64,7 @@ for i in range(total_ranks):
 for i in range(num_of_divs % total_ranks): #2
     split_arr[i]+=1
 ```
-1) Divsion (floor) of the total number of divisions in the function by the total number of computers being used
+1) Division (floor) of the total number of divisions in the function by the total number of computers being used
 2) Takes the modulus of the number of divisions by the total number of computers and adds the remainder to one of the computers
 
 Second step:
