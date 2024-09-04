@@ -12,7 +12,7 @@ import platform
 
 
 '''
-Qt_Slurm v1.1.7
+Qt_Slurm v1.1.15
 
 See README for version history
 
@@ -104,9 +104,6 @@ def parallelize(func, param, num_of_divs):
     try: #Makes a temporary folder
         if os.path.isdir(home_dir + "/temporary_files/tmp" + str(job_id)) == False:
             os.mkdir(home_dir + "/temporary_files/tmp"+ str(job_id))
-            with open(home_dir + "/temporary_files/execute" + str(job_id) + ".csv", 'w') as f:
-                write = csv.writer(f)
-                write.writerow("1")
     
     except Exception as e:
         print(f"Skip: {e}")
@@ -130,7 +127,6 @@ def parallelize(func, param, num_of_divs):
     else:
         results_arr[rank] = results_array
         results_arr[-1]=[1]
-        print("here")
         with open(home_dir + "/temporary_files/tmp" + str(job_id) + "/results_array.csv", 'w') as f:
 
                 # using csv.writer method from CSV package
@@ -139,6 +135,8 @@ def parallelize(func, param, num_of_divs):
                 write.writerows(results_arr) 
         val = results_arr[-1][0]
     if int(val) == total_ranks:
+        end = time.time()
+        print("\nTotal time taken: " + str(end - start) + " seconds.")
         with open(home_dir + "/temporary_files/tmp" + str(job_id) + "/results_array.csv", newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='"',quoting=csv.QUOTE_MINIMAL)
             tmp = 0
@@ -152,20 +150,25 @@ def parallelize(func, param, num_of_divs):
         results_arr.pop(-1)
         results_arr = [i for j in results_arr for i in j]
         
+        graph = plt.plot(param/(2*np.pi),results_arr)
         try:
             try:
-                graph = plt.plot(param/(2*np.pi),results_arr)
                 for name, value in globals().items():
                     if value is param:
                         xlab = name
+                        graph = plt.xlabel(xlab)
+                if os.path.isfile(home_dir + "/temporary_files/execute" + str(job_id) + ".csv") == False:
+                    with open(home_dir + "/temporary_files/execute" + str(job_id) + ".csv", 'w') as f:
+                        write = csv.writer(f)
+                        write.writerow("0")
+
+                
+                f = open(home_dir + "/temporary_files/name" + str(job_id) + ".txt", "r")
+                title = f.read()
+                graph = plt.title(title)
             except Exception:
                 pass
-                
-            graph = plt.xlabel(xlab)
-            f = open(home_dir + "/temporary_files/name" + str(job_id) + ".txt", "r")
-            title = f.read()
-            graph = plt.title(title)
-            
+
             sv = 0
             n = 0
             while(sv == 0):
@@ -179,6 +182,7 @@ def parallelize(func, param, num_of_divs):
                     print("Figure saved as " + home_dir + "/sim_data/" + str(n) + ".png")
                     print("Data saved as " + home_dir + "/sim_data/" + str(n) + ".csv") 
                     sv = 1
+                    
                     try:
                         if subprocess.run(['which', "feh"], stdout=subprocess.PIPE, stderr=subprocess.PIPE).returncode==0:
                             os.system('feh ' + home_dir + "/sim_data/" + str(n) + ".png")
@@ -186,7 +190,6 @@ def parallelize(func, param, num_of_divs):
                         pass
             try:
                 os.remove(home_dir + "/temporary_files/tmp" + str(job_id) + "/results_array.csv")
-                os.remove(home_dir + "/temporary_files/execute" + str(job_id) + ".csv")
                 os.remove(home_dir + "/temporary_files/name" + str(job_id) + ".txt")
                 os.rmdir(home_dir + "/temporary_files/tmp" + str(job_id))
             except Exception as e:
@@ -195,8 +198,7 @@ def parallelize(func, param, num_of_divs):
         except Exception as e:
             print(f"{e}")
             
-        end = time.time()
-        print("\nTotal time taken: " + str(end - start) + " seconds.")
+        
     return results_arr
 
 def execute(name, nodes, cores, tasks):
@@ -214,17 +216,15 @@ def execute(name, nodes, cores, tasks):
     '''
     home_dir = os.getenv('HOME')
     
+    rank, total_ranks, job_id = get_rank()
+    try:
+        with open(home_dir + "/temporary_files/name" + str(job_id) + ".txt", "w") as file:
+            file.write(name)
+    except Exception:
+        pass
     if platform.system() != "Linux": 
         raise TypeError("Slurm is only compatiable with Linux systems")
-    
-    try:
-        with open(home_dir + "/temporary_files/execute" + str(job_id) + ".csv", newline='') as csvfile:
-            reader = csv.reader(csvfile, delimiter=',', quotechar='"',quoting=csv.QUOTE_MINIMAL)
-            for row in reader:
-                val = row
-    except Exception:
-        val = ["0"]
-    if int(val[0]) != 1:        
+    if job_id==None:
         if os.path.isfile(home_dir + "/shared_scripts/" + name.split(".")[0]+ ".py") == False:
             file = name.split(".")[0]+ ".ipynb"
             try:
@@ -239,31 +239,17 @@ def execute(name, nodes, cores, tasks):
                 with open(home_dir + "/shared_scripts/" + name.split(".")[0]+ ".py", 'w') as output_file:
                     output_file.write(python_script)
                     
-                print("\nWaiting ten seconds...\n")
-                time.sleep(10)
                       
                 
                 os.system("srun -n" + str(nodes) + " -c " + str(cores) + " -N " + str(tasks) + " python " + home_dir + "/shared_scripts/" + name.split(".")[0]+ ".py")
-                rank, total_ranks, job_id = get_rank()
                 home_dir = os.getenv('HOME')
-                if os.path.isfile(home_dir + "/temporary_files/execute" + str(job_id) + ".csv") == False:
-                    with open(home_dir + "/temporary_files/execute" + str(job_id) + ".csv", 'w') as f:
-                        write = csv.writer(f)
-                        write.writerow("0")
-
-                with open(home_dir + "/temporary_files/name" + str(job_id) + ".txt", "w") as file:
-                    file.write(name)
-                with open(home_dir + "/temporary_files/execute" + str(job_id) + ".csv", 'w') as f:
-                    write = csv.writer(f)
-                    write.writerow("1")
                 
-
             except Exception as e:
                 print(f"Error: {e}")
 
         else:
             try:
-                ans = input("A file with the name of your Jupyter notebook file already exists, would you like to delete it and restart (will be done automatically)?")
+                ans = input("A file with the name of your Jupyter notebook file already exists, would you like to delete it and restart (will be done automatically)?\n")
                 if ans.lower().replace(" ", "") == "yes" or ans.lower().replace(" ", "") =="y":
                     os.remove(home_dir + "/shared_scripts/" + name.split(".")[0]+ ".py")
                     print("\nWaiting ten seconds...\n")

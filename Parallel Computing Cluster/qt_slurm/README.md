@@ -1,4 +1,4 @@
-# Qt_Slurm v1.1.7
+# Qt_Slurm v1.1.15
 This package is meant for Qutip integration with Slurm on Linux based systems. Please let me know if there are any bugs. 
 
 ## Release History
@@ -16,9 +16,16 @@ This package is meant for Qutip integration with Slurm on Linux based systems. P
 - v1.1.3 - Fixed job_id being called before Slurm job start (fatal)
 - v1.1.4 - Added condition to set initial loop value (fatal)
 - v1.1.5 - Readded home_dir var to execute() funciton
-- v1.1.6 - Fixed printing of each computer rank, added printing job_id 
-- v1.1.7 - Added timing function
-  
+- v1.1.6 - Fixed printing of each computer rank, added printing job_id (fatal) 
+- v1.1.7 - Added timing function (fatal)
+- v1.1.8 - Changed plot name finding location (fatal)
+- v1.1.9 - Fixed calling of job_id in execute function
+- v1.1.10 - Never added creation of temporary file for loop 
+- v1.1.11 - Fixed issue where I wrote isdir instead of isfile in execute() function (fatal)
+- v1.1.12 - Forgot to delete code (can be fatal)
+- v1.1.13 - Added if job_id hasn't been defined, continue loop, else stop - removes need for temporary execute file
+- v1.1.14 - Fixed title of graph bug
+- v1.1.15 - Changed location of timing variable
 ## How to Use
 ### Required Installations:
 - qutip<=4.7.6
