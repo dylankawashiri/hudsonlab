@@ -31,7 +31,9 @@ def split_func(num_of_divs):
     by the total number of computers. This floor is added to an array with the number of entries set to the
     number of computers. The remainder is calculated with a modulus and is added as evenly as possible to each
     node. 
-
+    
+    Returns split_arr, the number of computations each node will compute. 
+    
     num_of_divs: Number of divisions or points in your param parameter for your main function. 
     '''
     rank, total_ranks = get_rank()
@@ -47,8 +49,12 @@ def split_func(num_of_divs):
     
 def get_rank():
     '''
-    The get_rank() function gets the unique number assigned to each computer by Slurm (necessary for division) and the 
-    total number of computers available for the job. 
+    The get_rank() function gets the unique number assigned to each computer by Slurm (rank, necessary for division) and the 
+    total number of computers available for the job (total_ranks). 
+
+    returns rank, total_ranks
+
+    #Code from ChatGPT
     '''
     rank = int(os.getenv('SLURM_PROCID', 0))
     total_ranks = int(os.getenv('SLURM_NTASKS', 1))
@@ -66,6 +72,9 @@ def parallelize(func, param, num_of_divs):
     func: Function you wish to parallelize using Qutip's parallel_map (see Qutip docs for more details).
     param: Parameter for given func function.
     num_of_divs: Number of divisions or points in your param parameter. 
+
+    Returns results_arr, or output of all parallel_map processes across all nodes currently completed (will only
+    be complete once the final node has completed computations). 
     '''
     home_dir = os.getenv('HOME')
 
@@ -185,8 +194,9 @@ def execute(name, nodes, cores, tasks):
     nodes: Number of nodes (computers) the user will request Slurm for
     cores: Number of cores requested (max is the number specified in slurm.conf file - also number of cores per CPU)
     tasks: Number of tasks requested (set to nodes, this will tell Slurm how many times to distribute the .py file)
+
+    *Parts of the code were taken from ChatGPT
     '''
-    #Parts from ChatGPT
     home_dir = os.getenv('HOME')
     with open(home_dir + "/temporary_files/execute.csv", newline='') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='"',quoting=csv.QUOTE_MINIMAL)
