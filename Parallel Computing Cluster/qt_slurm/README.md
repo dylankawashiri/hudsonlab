@@ -22,11 +22,13 @@ This package is meant for Qutip integration with Slurm on Linux based systems. P
 ### Required Installations:
 - qutip<=4.7.6
 - feh (apt-package)
+
+### Jupyter Notebook
+
 First, import the library as shown below:
 ```
 from qt_slurm import parallel_slurm as pqt
 ```
-### Jupyter Notebook
 
 If using Jupyter Notebook, at the end of your code (in the same cell as the last thing you wish to run), implement the parallelize function.
 
