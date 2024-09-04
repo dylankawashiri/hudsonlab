@@ -16,6 +16,7 @@ This package is meant for Qutip integration with Slurm on Linux based systems. P
 - v1.1.3 - Fixed job_id being called before Slurm job start (fatal)
 - v1.1.4 - Added condition to set initial loop value (fatal)
 - v1.1.5 - Readded home_dir var to execute() funciton
+- v1.1.6 - Fixed printing of each computer rank, added printing job_id
   
 ## How to Use
 ### Required Installations:
