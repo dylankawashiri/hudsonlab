@@ -81,6 +81,6 @@ As mentioned before, there is no way to store the results in a common variable. 
 
 
 ### File Sharing
-In order for Slurm to work, you must distribute the Python file you wish to parallelize to all nodes in the cluster. This can be done by uploading the files to the mounted folder at location "/mnt/share" (this folder is available on all nodes). This will automatically distribute the file. 
+In order for Slurm to work, you must distribute the Python file you wish to parallelize to all nodes in the cluster. This can be done by uploading the files to the mounted folder at location "$HOME/shared_scripts" (this folder is available on all nodes). This will automatically distribute the file. 
 
 
