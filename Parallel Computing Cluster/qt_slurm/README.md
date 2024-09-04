@@ -32,8 +32,8 @@ pqt.initialize()
 pqt.execute("Name_of_notebook", num_of_nodes, num_of_cores, num_of_tasks)
 ```
 
-The first function, pqt.initialize(), simply sets the loop parameter to its initial condition (zero). This will turn to a value of one during the loop which will prevent the execute function from running more than once. 
+The first function, pqt.initialize(), sets the loop parameter to its initial condition (zero). This will turn to a value of one during the loop which will prevent the execute function from running more than once. 
 
 The second function, pqt.execute(), is responsible for converting the contents of your Jupyter Notebook to a Python file, moving that file to a shared folder, and then finally executing a Slurm command. To do this, you must enter the name of your notebook. If you are running the Jupyter Notebook out of your home directory, you do not need to include a path name. Otherwise, include a full path name if possible. The following three parameters are all variables required by Slurm. Set num_of_cores to the number of cores each computer has (in this case, 8) and num_of_nodes and num_of_tasks to the number of nodes you wish to use. 
 
-Once you execute the last cell, the conversion will occur and the script will compute in parallel with Slurm. Outputs will be displayed in the $HOME/sim_data folder in the form of a csv file and PNG graph. 
+Once you execute the last cell, the conversion will occur and the script will compute in parallel with Slurm. Outputs will be displayed in the $HOME/sim_data folder in the form of a CSV file and PNG graph. See the Python code for a more detailed break down. 
