@@ -1,4 +1,4 @@
-# Test Packaging Slurm Thing with Qutip v1.0.1
+# Test Packaging Slurm Thing with Qutip v1.1.6
 This package is meant for Qutip integration with Slurm on Linux based systems. Please let me know if there are any bugs. 
 
 ## Release History
@@ -7,9 +7,16 @@ This package is meant for Qutip integration with Slurm on Linux based systems. P
 - v0.1.11 - Added return value to parallelize function, fixed deletion of job storage 
 - v0.2.1 - Added Jupyter notebook integration, $HOME generalization
 - v0.2.2 - Fixed fatal bug with import
-- v1.0.0 - First release, removed safety feature (not necessary), removed unecessary comments, create initialization function, working Jupyter notebook loop and deletion (if necessasry)
+- v1.0.0 - First release, removed safety feature (not necessary), removed unnecessary comments, created initialization function, working Jupyter notebook loop and deletion (if necessary)
 - v1.0.1 - Forgot to add $HOME variable to initialization function
-
+- v1.0.2 - Added exception to loop in execute() function
+- v1.0.3 - Added a waiting period in the execute() function - immediate execution was previously leading to Slurm executing older scripts that had not been deleted yet
+- v1.1.1 - Incorporated initialization() function into execute script, added plot showing capabilities, added automatic title and x labels, included Linux only parameter, included job_id with get_rank() (fatal)
+- v1.1.2 - Forgot to include third parameter in new get_rank() function (fatal)
+- v1.1.3 - Fixed job_id being called before Slurm job start (fatal)
+- v1.1.4 - Added condition to set initial loop value (fatal)
+- v1.1.5 - Readded home_dir var to execute() funciton
+  
 ## How to Use
 ### Required Installations:
 - qutip<=4.7.6
