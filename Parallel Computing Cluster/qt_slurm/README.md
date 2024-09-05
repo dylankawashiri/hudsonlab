@@ -1,5 +1,5 @@
 # Qt_Slurm v1.1.15
-This package is meant for Qutip integration with Slurm on Linux based systems. Please let me know if there are any bugs. 
+This package is meant for Qutip integration with Slurm on Linux-based systems. Please let me know if there are any bugs. 
 
 
 ## How to Use
