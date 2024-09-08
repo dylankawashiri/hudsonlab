@@ -8,6 +8,8 @@ This README file goes over how to implement 3D-printed shutters using a Labjack 
 - 2x DRV8833 Motor Drive Module
 - 1x SN74LS06N Inverter
 - 1x PNN7RE08JD DC Motor
+- 8x 50 Ohm Resistors
+- 1x Acopian 5 Volt, .7 Amp AC to DC Power Supply
 
 ### Circuit
 
