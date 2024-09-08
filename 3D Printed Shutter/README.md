@@ -13,9 +13,12 @@ This README file goes over how to implement 3D-printed shutters using a Labjack 
 
 ### Circuit
 
+
 ### STL Files
 The STL files for 3D printing can be found in the ['STL Files' folder](https://github.com/dylankawashiri/hudsonlab/tree/main/3D%20Printed%20Shutter/STL%20Files).
 
+## Shutter GUI
+I have developed a GUI based on the PyQT library to control the shutter/Labjack combination, see the [Python](https://github.com/dylankawashiri/hudsonlab/tree/main/3D%20Printed%20Shutter/Python) folder for more information. The rest of this README will focus on the Python commands needed to control the Labjack and shutter(s) if you choose not to use the GUI. 
 
 ## Python functions - Labjack
 The native Kipling software can be used to give the Labjack commands. However, you can also use Python to execute commands. 
