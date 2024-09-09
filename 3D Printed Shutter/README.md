@@ -25,10 +25,11 @@ Drawn-out circuit diagram for one of the four motor controllers. With these comp
 The STL files for 3D printing can be found in the ['STL Files' folder](https://github.com/dylankawashiri/hudsonlab/tree/main/3D%20Printed%20Shutter/STL%20Files).
 
 ## Shutter GUI
-I have developed a GUI based on the PyQT library to control the shutter/Labjack combination, see the [Python](https://github.com/dylankawashiri/hudsonlab/tree/main/3D%20Printed%20Shutter/Python) folder for more information. The rest of this README will focus on the Python commands needed to control the Labjack and shutter(s) if you choose not to use the GUI. You can see an example GUI in the [Python folder](https://github.com/dylankawashiri/hudsonlab/tree/main/3D%20Printed%20Shutter/Python).
+I have developed a GUI based on the PyQT library to control the shutter/Labjack combination. The code allows for manual port selection for the inverter and motor driver (which is optional and should not be used if using an external power supply, as I used above), as well as the indiviual ports required for TTL signal control. See the [Python](https://github.com/dylankawashiri/hudsonlab/tree/main/3D%20Printed%20Shutter/Python) to view the code. The rest of this README will focus on the Python commands needed to control the Labjack and shutter(s) if you choose not to use the GUI. You can see an example GUI in the [Python folder](https://github.com/dylankawashiri/hudsonlab/tree/main/3D%20Printed%20Shutter/Python).
 <img width="799" alt="Screenshot 2024-08-09 at 10 54 53 PM" src="https://github.com/user-attachments/assets/fee356b1-9b60-4a15-a8da-b6067b0a1cb4">
 
 Screenshot of the GUI. 
+
 
 ## Python functions - Labjack
 The native Kipling software can be used to give the Labjack commands. However, you can also use Python to execute commands. 
