@@ -16,7 +16,7 @@ While these are the items and parts I used, many of these parts can be interchan
 
 ### Circuit
 
-![Untitled Notebook (223)-2](/Users/dylankawashiri/Desktop/Untitled Notebook (223)-2.jpg)
+![Untitled Notebook (223)-2](https://github.com/user-attachments/assets/ecdfd4d1-76ba-4ced-8aaa-5a1eddeaf142)
 
 Drawn-out circuit diagram for one of the four motor controllers. With these components, you can attach and control up to four motors/shutters.
 
